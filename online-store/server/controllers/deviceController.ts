@@ -1,4 +1,4 @@
-import uuid from "uuid";
+import { v4 } from "uuid";
 import path from "path";
 import { Request, Response, NextFunction } from "express";
 import { Device, DeviceInfo } from "../models/models";
@@ -20,17 +20,17 @@ class DeviceController {
   ): Promise<Response | void> {
     try {
       let { name, price, brandId, typeId, info } = req.body;
-      // if (!req.files || !req.files.img) {
-      //     throw ApiError.badRequest("No image file uploaded");
-      // }
-      const img = req.files?.img;
+      if (!req.files || !req.files.img) {
+        throw ApiError.badRequest("No image file uploaded");
+      }
+      const img = req.files.img;
 
       if (Array.isArray(img)) {
         throw ApiError.badRequest("Multiple files upload not supported");
       }
-
-      let fileName = uuid.v4() + ".jpg";
-      img?.mv(path.resolve(__dirname, "..", "static", fileName));
+      console.log("UUid", v4);
+      let fileName = v4() + ".jpg";
+      img.mv(path.resolve(__dirname, "..", "static", fileName));
       const device = await Device.create({
         name,
         price,
