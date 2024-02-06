@@ -1,8 +1,14 @@
 import { v4 } from "uuid";
 import path from "path";
 import { Request, Response, NextFunction } from "express";
-import { Device, DeviceInfo } from "../models/models";
+import { WhereOptions } from "sequelize";
+import { Device, IDeviceAttributes, DeviceInfo } from "../models/models";
 import ApiError from "../error/ApiError";
+
+interface IDeviceInfoParsed {
+  title: string;
+  description: string;
+}
 
 class DeviceController {
   /**
@@ -28,7 +34,6 @@ class DeviceController {
       if (Array.isArray(img)) {
         throw ApiError.badRequest("Multiple files upload not supported");
       }
-      console.log("UUid", v4);
       let fileName = v4() + ".jpg";
       img.mv(path.resolve(__dirname, "..", "static", fileName));
       const device = await Device.create({
@@ -39,16 +44,16 @@ class DeviceController {
         img: fileName,
       });
 
-      /*  if (info) {
-                info = JSON.parse(info)
-                info.forEach(i =>
-                    DeviceInfo.create({
-                        title: i.title,
-                        description: i.description,
-                        deviceId: device.id
-                    })
-                )
-            } */
+      if (info) {
+        info = JSON.parse(info) as IDeviceInfoParsed[];
+        info.forEach((i: IDeviceInfoParsed) =>
+          DeviceInfo.create({
+            title: i.title,
+            description: i.description,
+            deviceId: device.id,
+          })
+        );
+      }
 
       return res.json(device);
     } catch (e) {
@@ -60,9 +65,51 @@ class DeviceController {
     }
   }
 
-  async getAll(req: Request, res: Response) {}
+  async getAll(req: Request, res: Response): Promise<Response | void> {
+    let whereCondition: WhereOptions<IDeviceAttributes> = {};
+    // const { brandId, typeId } = req.query;
+    const brandId = req.query.brandId ? Number(req.query.brandId) : null;
+    const typeId = req.query.typeId ? Number(req.query.typeId) : null;
+    const page = req.query.page ? Number(req.query.page) : 1;
+    const limit = req.query.limit ? Number(req.query.limit) : 9;
+    let offset = page * limit - limit;
 
-  async getOne(req: Request, res: Response) {}
+    let devices;
+    if (!brandId && !typeId) {
+      devices = await Device.findAndCountAll({ limit, offset });
+    }
+    if (brandId && !typeId) {
+      devices = await Device.findAndCountAll({
+        where: { brandId },
+        limit,
+        offset,
+      });
+    }
+    if (!brandId && typeId) {
+      devices = await Device.findAndCountAll({
+        where: { typeId },
+        limit,
+        offset,
+      });
+    }
+    if (brandId && typeId) {
+      devices = await Device.findAndCountAll({
+        where: { typeId, brandId },
+        limit,
+        offset,
+      });
+    }
+    return res.json(devices);
+  }
+
+  async getOne(req: Request, res: Response): Promise<Response | void> {
+    const { id } = req.params;
+    const device = await Device.findOne({
+      where: { id },
+      include: [{ model: DeviceInfo, as: "info" }],
+    });
+    return res.json(device);
+  }
 }
 
 export default new DeviceController();

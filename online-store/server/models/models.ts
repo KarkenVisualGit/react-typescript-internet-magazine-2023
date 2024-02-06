@@ -10,7 +10,7 @@ interface IUserAttributes {
   role?: string;
 }
 
-interface IDeviceAttributes {
+export interface IDeviceAttributes {
   id?: number;
   name: string;
   price: number;
@@ -96,9 +96,10 @@ type RatingStatic = typeof Model & {
 };
 
 interface IDeviceInfoAttributes {
-  id: number;
+  id?: number;
   title: string;
   description: string;
+  deviceId?: number;
 }
 interface IDeviceInfoModel
   extends Model<IDeviceInfoAttributes>,
@@ -180,7 +181,7 @@ Rating.belongsTo(Device);
 Device.hasMany(BasketDevice);
 BasketDevice.belongsTo(Device);
 
-Device.hasMany(DeviceInfo);
+Device.hasMany(DeviceInfo, { as: "info" });
 DeviceInfo.belongsTo(Device);
 
 Type.belongsToMany(Brand, { through: TypeBrand });
