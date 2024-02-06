@@ -11,15 +11,21 @@ interface IUserAttributes {
 }
 
 interface IDeviceAttributes {
-  id: number;
+  id?: number;
   name: string;
   price: number;
   rating?: number;
+  brandId: number;
+  typeId: number;
   img: string;
 }
 interface IDeviceModel extends Model<IDeviceAttributes>, IDeviceAttributes {}
 type DeviceStatic = typeof Model & {
   new (values?: object, options?: BuildOptions): IDeviceModel;
+  create(
+    values?: IDeviceAttributes,
+    options?: BuildOptions
+  ): Promise<IDeviceModel>;
 };
 
 interface IUserModel extends Model<IUserAttributes>, IUserAttributes {}
@@ -116,13 +122,15 @@ const BasketDevice = <BasketDeviceStatic>sequelize.define("basket_device", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
 });
 
-const Device = <DeviceStatic>sequelize.define("device", {
+const Device = (<DeviceStatic>sequelize.define("device", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataTypes.STRING, unique: true, allowNull: false },
   price: { type: DataTypes.INTEGER, allowNull: false },
   rating: { type: DataTypes.INTEGER, defaultValue: 0 },
+  brandId: { type: DataTypes.INTEGER, allowNull: false },
+  typeId: { type: DataTypes.INTEGER, allowNull: false },
   img: { type: DataTypes.STRING, allowNull: false },
-});
+})) as DeviceStatic;
 
 const Type = (<TypeStatic>sequelize.define("type", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
