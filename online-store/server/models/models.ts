@@ -3,8 +3,8 @@ import sequelize from "../db";
 import { DataTypes } from "sequelize";
 import { BuildOptions, Model } from "sequelize";
 
-interface IUserAttributes {
-  id: number;
+export interface IUserAttributes {
+  id?: number;
   email: string;
   password: string;
   role?: string;
@@ -34,7 +34,8 @@ type UserStatic = typeof Model & {
 };
 
 interface IBasketAttributes {
-  id: number;
+  id?: number;
+  userId?: number;
 }
 interface IBasketModel extends Model<IBasketAttributes>, IBasketAttributes {}
 type BasketStatic = typeof Model & {
