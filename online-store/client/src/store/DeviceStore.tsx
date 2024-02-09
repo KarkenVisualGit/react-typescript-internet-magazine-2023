@@ -7,7 +7,7 @@ export interface IBrands {
   id: number;
   name: string;
 }
-export interface Idevices {
+export interface IDevices {
   id: number;
   name: string;
   price: number;
@@ -18,13 +18,13 @@ export interface Idevices {
 export interface IDeviceStore {
   _types: ITypes[];
   _brands: IBrands[];
-  _devices: Idevices[];
+  _devices: IDevices[];
 }
 
 export default class DeviceStore implements IDeviceStore {
   _types: ITypes[];
   _brands: IBrands[];
-  _devices: Idevices[];
+  _devices: IDevices[];
   _selectedType: ITypes | null;
   _selectedBrand: IBrands | null;
   constructor() {
@@ -46,35 +46,49 @@ export default class DeviceStore implements IDeviceStore {
         name: "Iphone 12 pro",
         price: 25000,
         rating: 5,
-        img: "https://unsplash.com/photos/silver-iphone-6-with-blue-case-OjMyiwfviQ4",
+        img: "https://upload.wikimedia.org/wikipedia/commons/f/fa/IPhone_5.png",
       },
       {
-        id: 1,
+        id: 2,
         name: "Iphone 12 pro",
         price: 25000,
         rating: 5,
-        img: "https://unsplash.com/photos/silver-iphone-6-with-blue-case-OjMyiwfviQ4",
+        img: "https://upload.wikimedia.org/wikipedia/commons/f/fa/IPhone_5.png",
       },
       {
-        id: 1,
+        id: 3,
         name: "Iphone 12 pro",
         price: 25000,
         rating: 5,
-        img: "https://unsplash.com/photos/silver-iphone-6-with-blue-case-OjMyiwfviQ4",
+        img: "https://upload.wikimedia.org/wikipedia/commons/f/fa/IPhone_5.png",
       },
       {
-        id: 1,
+        id: 4,
         name: "Iphone 12 pro",
         price: 25000,
         rating: 5,
-        img: "https://unsplash.com/photos/silver-iphone-6-with-blue-case-OjMyiwfviQ4",
+        img: "https://upload.wikimedia.org/wikipedia/commons/f/fa/IPhone_5.png",
       },
       {
-        id: 1,
+        id: 5,
         name: "Iphone 12 pro",
         price: 25000,
         rating: 5,
-        img: "https://unsplash.com/photos/silver-iphone-6-with-blue-case-OjMyiwfviQ4",
+        img: "https://upload.wikimedia.org/wikipedia/commons/f/fa/IPhone_5.png",
+      },
+      {
+        id: 6,
+        name: "Iphone 12 pro",
+        price: 25000,
+        rating: 5,
+        img: "https://upload.wikimedia.org/wikipedia/commons/f/fa/IPhone_5.png",
+      },
+      {
+        id: 7,
+        name: "Iphone 12 pro",
+        price: 25000,
+        rating: 5,
+        img: "https://upload.wikimedia.org/wikipedia/commons/f/fa/IPhone_5.png",
       },
     ];
     this._selectedType = null;
@@ -90,7 +104,7 @@ export default class DeviceStore implements IDeviceStore {
     this._brands = brands;
   }
 
-  setDevices(devices: Idevices[]) {
+  setDevices(devices: IDevices[]) {
     this._devices = devices;
   }
   setSelectedTypes(type: ITypes | null) {
