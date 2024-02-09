@@ -4,7 +4,7 @@ import Shop from "../pages/Shop";
 import Auth from "../pages/Auth";
 import { authRoutes, publicRoutes } from "../routes";
 import { SHOP_ROUTE } from "../utils/const";
-import { Context } from "..";
+import { Context } from "../index";
 
 export function useUserContext() {
   const context = useContext(Context);

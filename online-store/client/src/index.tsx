@@ -4,7 +4,7 @@ import App from "./App";
 import UserStore from "./store/UserStore";
 import DeviceStore from "./store/DeviceStore";
 
-interface IUserContext {
+export interface IUserContext {
   user: UserStore;
   device: DeviceStore;
 }

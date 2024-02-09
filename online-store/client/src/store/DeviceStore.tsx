@@ -1,13 +1,13 @@
 import { makeAutoObservable } from "mobx";
-interface ITypes {
+export interface ITypes {
   id: number;
   name: string;
 }
-interface IBrands {
+export interface IBrands {
   id: number;
   name: string;
 }
-interface Idevices {
+export interface Idevices {
   id: number;
   name: string;
   price: number;
@@ -15,7 +15,7 @@ interface Idevices {
   img: string;
 }
 
-interface IDeviceStore {
+export interface IDeviceStore {
   _types: ITypes[];
   _brands: IBrands[];
   _devices: Idevices[];
@@ -25,10 +25,13 @@ export default class DeviceStore implements IDeviceStore {
   _types: ITypes[];
   _brands: IBrands[];
   _devices: Idevices[];
+  _selectedType: ITypes | null;
   constructor() {
     this._types = [
       { id: 1, name: "Холодильники" },
       { id: 2, name: "Смартфоны" },
+      { id: 3, name: "Ноутбуки" },
+      { id: 4, name: "Телевизоры" },
     ];
     this._brands = [
       { id: 1, name: "Samsung" },
@@ -71,6 +74,7 @@ export default class DeviceStore implements IDeviceStore {
         img: "https://unsplash.com/photos/silver-iphone-6-with-blue-case-OjMyiwfviQ4",
       },
     ];
+    this._selectedType = null;
     makeAutoObservable(this);
   }
 
@@ -85,16 +89,23 @@ export default class DeviceStore implements IDeviceStore {
   setDevices(devices: Idevices[]) {
     this._devices = devices;
   }
+  setSelectedTypes(type: ITypes | null) {
+    this._selectedType = type;
+  }
 
-  get type() {
+  get types() {
     return this._types;
   }
 
-  get brand() {
+  get brands() {
     return this._brands;
   }
 
   get devices() {
     return this._devices;
+  }
+
+  get selectedType() {
+    return this._selectedType;
   }
 }
