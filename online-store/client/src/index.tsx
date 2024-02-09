@@ -2,9 +2,11 @@ import React, { StrictMode, createContext } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import UserStore from "./store/UserStore";
+import DeviceStore from "./store/DeviceStore";
 
 interface IUserContext {
   user: UserStore;
+  device: DeviceStore;
 }
 
 export const Context = createContext<IUserContext | null>(null);
@@ -17,6 +19,7 @@ if (rootElement) {
       <Context.Provider
         value={{
           user: new UserStore(),
+          device: new DeviceStore(),
         }}
       >
         <App />

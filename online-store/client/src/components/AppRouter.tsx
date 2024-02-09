@@ -6,16 +6,17 @@ import { authRoutes, publicRoutes } from "../routes";
 import { SHOP_ROUTE } from "../utils/const";
 import { Context } from "..";
 
-const AppRouter = () => {
-  function useUserContext() {
-    const context = useContext(Context);
-    if (context === null) {
-      throw new Error(
-        "useUserContext должен использоваться внутри UserContext.Provider"
-      );
-    }
-    return context;
+export function useUserContext() {
+  const context = useContext(Context);
+  if (context === null) {
+    throw new Error(
+      "useUserContext должен использоваться внутри UserContext.Provider"
+    );
   }
+  return context;
+}
+
+const AppRouter = () => {
   const { user } = useUserContext();
   console.log(user);
 
