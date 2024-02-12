@@ -21,9 +21,9 @@ const DeviceItem: FC<{ device: DeviceImageRating }> = ({ device }) => {
       <Card style={{ width: 150, cursor: "pointer" }} border={"light"}>
         <Image width={100} height={150} src={device.img} />
         <Card.Body className="p-2 mt-1">
-          <Row className="text-black-50 d-flex align-items-center justify-content-between">
+          <Row className="text-black-50 d-flex align-items-center justify-content-around">
             <Col className="d-flex justify-content-start">
-              <div>Samsung...</div>
+              <div>Apple</div>
             </Col>
             <Col className="d-flex justify-content-end align-items-center">
               <div>{device.rating}</div>
