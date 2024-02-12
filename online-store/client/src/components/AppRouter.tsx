@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
-import Shop from "../pages/Shop";
-import Auth from "../pages/Auth";
+import { observer } from "mobx-react-lite";
 import { authRoutes, publicRoutes } from "../routes";
 import { SHOP_ROUTE } from "../utils/const";
 import { Context } from "../index";
@@ -16,26 +15,22 @@ export function useUserContext() {
   return context;
 }
 
-const AppRouter = () => {
+const AppRouter = observer(() => {
   const { user } = useUserContext();
   console.log(user);
 
-  return user.isAuth ? (
+  return (
     <Routes>
       {user.isAuth &&
-        authRoutes.map(({ path, Element }) => {
-          return <Route path={path} element={<Element />} key={path} />;
-        })}
-      <Route path="*" element={<Navigate to={SHOP_ROUTE} replace />} />
-    </Routes>
-  ) : (
-    <Routes>
-      {publicRoutes.map(({ path, Element }) => {
-        return <Route path={path} element={<Element />} key={path} />;
-      })}
-      <Route path="*" element={<Navigate to={SHOP_ROUTE} replace />} />
+        authRoutes.map(({ path, Element }) => (
+          <Route key={path} path={path} element={<Element />} />
+        ))}
+      {publicRoutes.map(({ path, Element }) => (
+        <Route key={path} path={path} element={<Element />} />
+      ))}
+      <Route path="*" element={<Navigate replace to={SHOP_ROUTE} />} />
     </Routes>
   );
-};
+});
 
 export default AppRouter;

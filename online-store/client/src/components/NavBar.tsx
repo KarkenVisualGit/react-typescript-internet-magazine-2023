@@ -27,7 +27,10 @@ const NavBar = observer(() => {
               Admin panel
             </Button>
             <Button
-              onClick={() => navigate(LOGIN_ROUTE)}
+              onClick={() => {
+                user.setisAuth(false);
+                navigate(LOGIN_ROUTE);
+              }}
               variant={"outline-light"}
               className="ms-2"
             >
@@ -38,7 +41,10 @@ const NavBar = observer(() => {
           <Nav className="ml-auto" style={{ color: "white" }}>
             <Button
               variant={"outline-light"}
-              onClick={() => user.setisAuth(true)}
+              onClick={() => {
+                user.setisAuth(true);
+                navigate(LOGIN_ROUTE);
+              }}
             >
               Authorization
             </Button>
